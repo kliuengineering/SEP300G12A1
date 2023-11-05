@@ -46,7 +46,8 @@ button:hover {
    background-color: black ;
 }
 
-p{    color: white;
+p{    
+    color: white;
      font-size: large;
      text-align: center;
     font-family: 'Roboto', sans-serif;
