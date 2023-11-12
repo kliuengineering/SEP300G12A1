@@ -11,6 +11,11 @@ from mainapp import views
 # users are redirected to the upload view
 urlpatterns = [
     # redirects the user to the upload page
-    path('', RedirectView.as_view(url='upload/')),  
-    path('upload/', views.upload, name='upload')
+    #path('', RedirectView.as_view(url='upload/')),
+    path('', RedirectView.as_view(url='login')),
+    path('upload/', views.upload, name='upload'),
+    path('login/', views.user_login, name='login'),
+    path('signup/', views.user_signup, name='signup'),
+    path('logout/', views.user_logout, name='logout'),
+
 ]
