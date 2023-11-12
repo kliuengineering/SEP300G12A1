@@ -23,18 +23,61 @@
    <h3>Developed by Arian, Jasleen, Kevin</h3>
    <div style="width: 20%; height: 10%; border-top: 2.5px solid rgba(255, 255, 255, 0.8); margin: 0 auto;"></div>
 
-   <div class="fancybox">
-    <!-- using http post method for signup -->
-     <form method="post">
+   <style>
+    .fancybox form {
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
+        margin: auto;
+        color: white;
+    }
 
-        <!-- cross site request forgery attacks prevention -->
-         {% csrf_token %}
-         {{ form.as_p }}
+    .fancybox label {
+        margin-bottom: 5px;
+    }
 
-         <!-- signup logic -->
-         <button type="submit">Signup</button>
-         <a href="{% url 'login' %}">Already have account?</a>
-     </form>
-     
-   </div>
+    .fancybox .form-group {
+        margin-bottom: 10px;
+    }
+
+    .fancybox .form-group small {
+        font-size: 12px;  /* Set your desired font size */
+        display: block;
+        margin-top: 5px;  /* Adjust the top margin as needed */
+    }
+
+    .fancybox button {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="fancybox">
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            {{ form.username }}
+            <small>{{ form.username.help_text }}</small>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Password:</label>
+            {{ form.password1 }}
+            <small>{{ form.password1.help_text }}</small>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+            {{ form.password2 }}
+            <small>{{ form.password2.help_text }}</small>
+        </div>
+
+        <!-- Repeat similar structure for other form fields if needed -->
+
+        <button type="submit">Signup</button>
+        <a href="{% url 'login' %}">Already have an account?</a>
+    </form>
+</div>
+
  </body>
