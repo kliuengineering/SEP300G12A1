@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import UserCreationForm, LoginForm
 from django.contrib.auth.decorators import login_required
 
+# handling uploaded file
+from .models import UploadedFile
+
 # handling file storage natively
 from django.core.files.storage import FileSystemStorage
 
@@ -29,7 +32,14 @@ def upload(request):
         name = fs.save(uploaded_file.name, uploaded_file)
 
         # generates key-value pair: key being the url 
-        context['url'] = fs.url(name)
+        # context['url'] = fs.url(name)
+        file_url = fs.url(name)
+
+        # associate the file URL with the current user
+        UploadedFile.objects.create(user=request.user, file_url=file_url)
+
+        context['url'] = file_url
+
     return render(request, 'upload.html', context)
 
 

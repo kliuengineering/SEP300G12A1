@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en"
+
 <head>
     <title>ShareFile</title>
 
@@ -5,12 +8,35 @@
      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
      <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
      <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@600&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
-     <link href="/static/css/style.css" rel="stylesheet"/>
+     <link href="/static/css/style.css" rel="stylesheet" />
+
+     <style>
+        body {
+            text-align: center;
+        }
+
+        h1, h3 {
+            margin-bottom: 20px;
+        }
+
+        .sign-out-button {
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
  </head> 
  
+
  <body>
    <h1>SEP300 SHARE-FILE APP</h1>
    <h3>Developed by Arian, Jasleen, Kevin</h3>
+
+    <!-- Add a "Sign Out" link or form -->
+    <form action="{% url 'logout' %}" method="post" class="sign-out-button">
+        {% csrf_token %}
+        <button type="submit">Sign Out</button>
+    </form>
+
    <div style="width: 20%; height: 10%; border-top: 2.5px solid rgba(255, 255, 255, 0.8); margin: 0 auto;"></div>
 
    <div class="fancybox">
@@ -27,19 +53,40 @@
    </div>
    
   <br>
+
+  
   <!-- if url exists, then states it in the box -->
+  <!--
      {% if url %}
      <div class="fancybox">
          <p>Uploaded file: <a href="{{ url }}">{{ url }}</a></p>
      </div>
+    -->
 
      <!-- or else say nothing found -->
+     <!--
      {% else %}
      <div class="fancybox">
         <p style = "color: white;">No upload found.</p>
      </div>
 
      {% endif %}
+    -->
  
+    <!-- Display all files uploaded by the current user -->
+    {% for uploaded_file in request.user.uploadedfile_set.all %}
+    <div class="fancybox">
+        <p>Uploaded file: <a href="{{ uploaded_file.file_url }}">{{ uploaded_file.file_url }}</a></p>
+    </div>
+    {% endfor %}
+
+    <!-- If no files are found -->
+    {% if not request.user.uploadedfile_set.all %}
+    <div class="fancybox">
+        <p style="color: white;">No upload found.</p>
+    </div>
+    {% endif %}
+
  </body>
  
+ </html>
