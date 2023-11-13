@@ -8,10 +8,12 @@ from django.views.generic.base import RedirectView
 from mainapp import views
 
 # blocks users from viewing the root directory;
-# users are redirected to the upload view
+# users are redirected to the login view
 urlpatterns = [
     # redirects the user to the upload page
     #path('', RedirectView.as_view(url='upload/')),
+
+    # redirects the user to the login page
     path('', RedirectView.as_view(url='login')),
     path('upload/', views.upload, name='upload'),
     path('login/', views.user_login, name='login'),

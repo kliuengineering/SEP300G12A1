@@ -33,7 +33,6 @@ def upload(request):
     return render(request, 'upload.html', context)
 
 
-
 # Signup page
 def user_signup(request):
     if request.method == 'POST':
@@ -44,6 +43,7 @@ def user_signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
 
 # login page
 def user_login(request):
@@ -59,7 +59,6 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
-
 
 
 # logout page
