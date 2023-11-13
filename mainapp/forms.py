@@ -23,3 +23,6 @@ class LoginForm(forms.Form):
         super(LoginForm, self).__init__(*args, **kwargs)
         print(f'Login user name is: {self.fields["username"]}')
         print(f'login password is: {self.fields["password"]}')
+
+class SharedFileForm(forms.Form):
+     share_with = forms.CharField(max_length=150)

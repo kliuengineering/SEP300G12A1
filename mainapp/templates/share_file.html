@@ -1,0 +1,31 @@
+<head>
+    <title>sharefile</title>
+
+    <!-- using some google fonts for later css referencing -->
+     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@600&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+     <link href="/static/css/style.css" rel="stylesheet"/>
+ </head> 
+ 
+ <body>
+   <h1>SEP300 SHARE-FILE APP</h1>
+   <h3>Developed by Arian, Jasleen, Kevin</h3>
+   <div style="width: 20%; height: 10%; border-top: 2.5px solid rgba(255, 255, 255, 0.8); margin: 0 auto;"></div>
+
+   <div class="fancybox"> 
+
+    <form method="post" action="{% url 'share_file' file_id=file_to_share.id %}">
+        {% csrf_token %}
+    
+        <!-- Replace the <select> with a text input -->
+        <!-- <input type="text" name="share_with" placeholder="Enter username" /> -->
+    
+        {{ form.as_p }}
+        <button type="submit">Share</button>
+    </form>
+    
+   <a href="{% url 'upload' %}">Back to Upload</a>
+
+   
+ </body>

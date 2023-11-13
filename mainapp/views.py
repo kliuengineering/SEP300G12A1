@@ -1,9 +1,9 @@
 # render and redirection
 from django.shortcuts import render, redirect
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserCreationForm, LoginForm
+from .forms import UserCreationForm, LoginForm, SharedFileForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # handling uploaded file
 from .models import UploadedFile
@@ -43,6 +43,48 @@ def upload(request):
     return render(request, 'upload.html', context)
 
 
+@login_required
+def share_file(request, file_id):
+    file_to_share = UploadedFile.objects.get(pk=file_id)
+
+    if request.method == 'POST':
+        form = SharedFileForm(request.POST)
+
+        if form.is_valid():
+            # Get the username from the form
+            share_with_username = form.cleaned_data['share_with']
+
+            try:
+                # Get the user object based on the entered username
+                shared_user = User.objects.get(username=share_with_username)
+
+                # Add the user to the shared_with field
+                file_to_share.shared_with.add(shared_user)
+                return redirect('upload')
+            except User.DoesNotExist:
+                # Handle the case where the entered username doesn't exist
+                form.add_error('share_with', 'User does not exist')
+
+    else:
+        form = SharedFileForm()
+
+    return render(request, 'share_file.html', {'form': form, 'file_to_share': file_to_share})
+
+
+@login_required
+def delete_file(request, file_id):
+    # Get the file object
+    file_to_delete = UploadedFile.objects.get(pk=file_id)
+
+    # Check if the user is the owner of the file
+    if request.user == file_to_delete.user:
+        # Delete the file
+        file_to_delete.delete()
+
+    # Redirect back to the upload page
+    return redirect('upload')
+
+
 # Signup page
 def user_signup(request):
     if request.method == 'POST':
@@ -71,6 +113,7 @@ def user_login(request):
     return render(request, 'login.html', {'form': form})
 
 
+@login_required
 # logout page
 def user_logout(request):
     logout(request)

@@ -53,30 +53,21 @@
    </div>
    
   <br>
-
-  
-  <!-- if url exists, then states it in the box -->
-  <!--
-     {% if url %}
-     <div class="fancybox">
-         <p>Uploaded file: <a href="{{ url }}">{{ url }}</a></p>
-     </div>
-    -->
-
-     <!-- or else say nothing found -->
-     <!--
-     {% else %}
-     <div class="fancybox">
-        <p style = "color: white;">No upload found.</p>
-     </div>
-
-     {% endif %}
-    -->
  
     <!-- Display all files uploaded by the current user -->
     {% for uploaded_file in request.user.uploadedfile_set.all %}
     <div class="fancybox">
         <p>Uploaded file: <a href="{{ uploaded_file.file_url }}">{{ uploaded_file.file_url }}</a></p>
+        <a href="{% url 'share_file' file_id=uploaded_file.id %}">Share this file</a>
+        <a href="{% url 'delete_file' file_id=uploaded_file.id %}">Delete this file</a>
+    </div>
+    {% endfor %}
+
+
+    <!-- Display all files shared with the current user -->
+    {% for shared_file in request.user.shared_files.all %}
+    <div class="fancybox">
+        <p>Shared file: <a href="{{ shared_file.file_url }}">{{ shared_file.file_url }}</a></p>
     </div>
     {% endfor %}
 

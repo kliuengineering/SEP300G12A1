@@ -15,9 +15,16 @@ urlpatterns = [
 
     # redirects the user to the login page
     path('', RedirectView.as_view(url='login')),
+
     path('upload/', views.upload, name='upload'),
     path('login/', views.user_login, name='login'),
     path('signup/', views.user_signup, name='signup'),
     path('logout/', views.user_logout, name='logout'),
+
+    # delete file
+    path('delete/<int:file_id>/', views.delete_file, name='delete_file'),
+
+    # sharefile 
+    path('share/<int:file_id>/', views.share_file, name='share_file'),
 
 ]
