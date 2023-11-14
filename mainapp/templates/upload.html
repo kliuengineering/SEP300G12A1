@@ -58,6 +58,8 @@
     {% for uploaded_file in request.user.uploadedfile_set.all %}
     <div class="fancybox">
         <p>Uploaded file: <a href="{{ uploaded_file.file_url }}">{{ uploaded_file.file_url }}</a></p>
+        <!-- Display the file hash -->
+        <p>File Hash: {{ uploaded_file.file_hash }}</p>
         <a href="{% url 'share_file' file_id=uploaded_file.id %}">Share this file</a>
         <a href="{% url 'delete_file' file_id=uploaded_file.id %}">Delete this file</a>
     </div>

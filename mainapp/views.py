@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import UserCreationForm, LoginForm, SharedFileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+import hashlib
 
 # handling uploaded file
 from .models import UploadedFile
@@ -14,6 +15,7 @@ from django.core.files.storage import FileSystemStorage
 # Create your views here.
 
 # upload view; referencing to the html and css for details
+# When a file is uploaded, calculate its SHA-256 hash and store it in the database along with the file.
 @login_required
 def upload(request):
     # dictionary for data exchange between view and upload.html
@@ -32,11 +34,23 @@ def upload(request):
         name = fs.save(uploaded_file.name, uploaded_file)
 
         # generates key-value pair: key being the url 
-        # context['url'] = fs.url(name)
         file_url = fs.url(name)
 
+        # calculate the SHA-256 hash
+        sha256_hash = hashlib.sha256()
+        for chunk in uploaded_file.chunks():
+            sha256_hash.update(chunk)
+
+        # get the hex digest of the hash
+        file_hash = sha256_hash.hexdigest()
+
         # associate the file URL with the current user
-        UploadedFile.objects.create(user=request.user, file_url=file_url)
+        # UploadedFile.objects.create(user=request.user, file_url=file_url)
+
+        # creates an uploadedfile obj with the hash
+        uploaded_file_obj = UploadedFile.objects.create(
+            user=request.user, file_url=file_url, file_hash=file_hash
+        )
 
         context['url'] = file_url
 
