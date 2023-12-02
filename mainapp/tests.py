@@ -178,3 +178,4 @@ class FileModificationDetectionTest(TestCase):
         # Check if the hashes are different
         self.assertNotEqual(original_hash, uploaded_file.file_hash)
 
+
