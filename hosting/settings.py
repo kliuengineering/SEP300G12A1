@@ -102,7 +102,7 @@ DATABASES = {
 }
 
 # for tests.py usage only
-if 'test' in sys.argv:
+if 'test' in sys.argv or 'pytest' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
